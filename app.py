@@ -1,8 +1,6 @@
 
-
-import os
 from flask import Flask, render_template, abort, request, redirect
-from connect_four import ConnectFour
+from connect_four import ConnectFour, ConnectFourException
 
 app = Flask(__name__)
 game = ConnectFour()
@@ -17,7 +15,10 @@ def player(player, color):
     pick = request.args.get('column', type=int)
     if game.turn is color:
         if pick:
-            game.move(pick)
+            try:
+                game.move(pick)
+            except ConnectFourException as err:
+                pass
             return redirect('/games/' + str(player))
 
     return render_template('play.html', player=player, color=color, game=game)

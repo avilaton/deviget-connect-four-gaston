@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 
-{% block body %}
+{% block head %}
+<meta http-equiv="refresh" content="3">
+{% endblock %}
 
+{% block body %}
 
 <h4> You are Player {{player}} using color {{color}}. </h4>
 
 Next turn is {{game.turn}}
 
 {% if game.winner == color%}
-<h1>YOU WIN</h1>
+<h1>YOU WON!</h1>
+{% elif game.winner and game.winner != color%}
+<h1>YOU LOST...</h1>
 {% endif %}
 
 <br>

@@ -48,7 +48,6 @@ class ConnectFour:
         else:
             raise ConnectFourForbidenMoveException('Column is full')
 
-        return 
 
     @staticmethod
     def diagonals(board, anti=False):
