@@ -14,3 +14,7 @@ class ConnectFour:
         print('Board')
         for row in self.board:
             print row
+
+    def next_turn(self):
+        self.turn = 'RED' if self.turn == 'YELLOW' else 'YELLOW'
+        return self.turn
