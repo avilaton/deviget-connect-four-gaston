@@ -8,6 +8,7 @@ def test_game():
     assert game.cols == 7
     assert game.turn in ['RED', 'YELLOW']
 
+
 def test_next_turn():
     game = ConnectFour()
     first_turn = game.turn
@@ -15,6 +16,7 @@ def test_next_turn():
     assert game.turn is not first_turn
     game.next_turn()
     assert game.turn is first_turn
+
 
 def test_move():
     game = ConnectFour()
@@ -54,3 +56,42 @@ def test_diagonals():
     assert [7,5,3] in anti_diagonals
     assert [8,6] in anti_diagonals
     assert [9] in anti_diagonals
+
+
+def test_get_winner():
+    w = ConnectFour.get_winner([
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'YELLOW', None, None, None],
+        [None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None]
+    ])
+    assert not w
+    w = ConnectFour.get_winner([
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None]
+    ])
+    assert w is 'RED'
+    w = ConnectFour.get_winner([
+        [None, None, None, 'YELLOW', None, None, None],
+        [None, None, 'YELLOW', 'RED', None, None, None],
+        [None, 'YELLOW', None, 'RED', None, None, None],
+        ['YELLOW', None, None, 'YELLOW', None, None, None],
+        [None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None]
+    ])
+    assert w is 'YELLOW'
+    w = ConnectFour.get_winner([
+        [None, None, None, 'RED', None, None, None],
+        [None, None, None, 'RED', None, None, None],
+        ['RED', None, None, 'RED', None, None, None],
+        [None, 'RED', None, 'YELLOW', None, None, None],
+        [None, None, 'RED', None, None, None, None],
+        [None, None, None, 'RED', None, None, None]
+    ])
+    assert w is 'RED'

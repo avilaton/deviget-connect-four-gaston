@@ -1,4 +1,5 @@
 import random
+import itertools
 
 
 class ConnectFourException(Exception):
@@ -34,6 +35,8 @@ class ConnectFour:
         else:
             raise ConnectFourException('Column is full')
 
+        return self.get_winner(self.board)
+
     @staticmethod
     def diagonals(board, anti=False):
         """
@@ -43,9 +46,23 @@ class ConnectFour:
         """
         forward = lambda h, p, q: h - p + q -1
         backward = lambda h, p, q: p - q
-        diag = backward if anti else forward
+        diag_getter = backward if anti else forward
 
         h, w = len(board), len(board[0])
-        return [[board[diag(h, p, q)][q]
+        return [[board[diag_getter(h, p, q)][q]
                  for q in range(max(p-h+1, 0), min(p+1, w))]
                 for p in range(h + w - 1)]
+
+    @staticmethod
+    def get_winner(board):
+        """
+        Generate all posible board runs and check if there is a sequence of 4 identical
+        """
+        runs = ConnectFour.diagonals(board)
+        runs += ConnectFour.diagonals(board, anti=True)
+        runs += board
+        runs += zip(*board)
+        for run in runs:
+            for color, line in itertools.groupby(run):
+                if color and len(list(line)) >= 4:
+                    return color

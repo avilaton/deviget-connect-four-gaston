@@ -3,10 +3,11 @@
 
 ## Time tracking
 
- - Woke up at 8:30, read instructions.
- - Started at 8:45
+ - 8:30 wake up, read instructions.
+ - 8:45 started.
+ - 11:34 add method to compute diagonals (this took a while).
 
 
 ## Running tests
 
-Run `py.test`
+Install `pytest` using `pip install pytest` and run `py.test`.
