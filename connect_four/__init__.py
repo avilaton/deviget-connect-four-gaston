@@ -33,3 +33,19 @@ class ConnectFour:
                 return
         else:
             raise ConnectFourException('Column is full')
+
+    @staticmethod
+    def diagonals(board, anti=False):
+        """
+        Compute all board diagonals.
+        Use anti=True to get backward running diagonals
+        Source is http://stackoverflow.com/a/23069625/1282324
+        """
+        forward = lambda h, p, q: h - p + q -1
+        backward = lambda h, p, q: p - q
+        diag = backward if anti else forward
+
+        h, w = len(board), len(board[0])
+        return [[board[diag(h, p, q)][q]
+                 for q in range(max(p-h+1, 0), min(p+1, w))]
+                for p in range(h + w - 1)]

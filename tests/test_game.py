@@ -36,3 +36,21 @@ def test_move():
         game.move(2)
     assert 'Column is full' in str(excinfo.value), 'Column 2 is full'
 
+
+def test_diagonals():
+    diagonals = ConnectFour.diagonals([[1,2,3],
+                                       [4,5,6],
+                                       [7,8,9]])
+    assert [7] in diagonals
+    assert [4,8] in diagonals
+    assert [1,5,9] in diagonals
+    assert [2,6] in diagonals
+    assert [3] in diagonals
+    anti_diagonals = ConnectFour.diagonals([[1,2,3],
+                                            [4,5,6],
+                                            [7,8,9]], anti=True)
+    assert [1] in anti_diagonals
+    assert [4,2] in anti_diagonals
+    assert [7,5,3] in anti_diagonals
+    assert [8,6] in anti_diagonals
+    assert [9] in anti_diagonals
