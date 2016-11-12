@@ -16,10 +16,8 @@ def player(player, color):
 
     pick = request.args.get('column', type=int)
     if game.turn is color:
-        print game.turn
         if pick:
             game.move(pick)
-            print('redirect')
             return redirect('/games/' + str(player))
 
     return render_template('play.html', player=player, color=color, game=game)

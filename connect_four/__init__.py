@@ -6,6 +6,14 @@ class ConnectFourException(Exception):
     pass
 
 
+class ConnectFourGameOverException(ConnectFourException):
+    pass
+
+
+class ConnectFourForbidenMoveException(ConnectFourException):
+    pass
+
+
 class ConnectFour:
     players = ['RED', 'YELLOW']
 
@@ -14,6 +22,7 @@ class ConnectFour:
         self.rows = rows
         self.board = [[None] * cols for _ in range(rows)]
         self.turn = random.choice(self.players)
+        self.winner = None
 
     def print_board(self):
         print('\nBoard: next turn {0}'.format(self.turn))
@@ -22,20 +31,24 @@ class ConnectFour:
 
     def next_turn(self):
         self.turn = 'RED' if self.turn == 'YELLOW' else 'YELLOW'
+        self.winner = self.get_winner(self.board)
         return self.turn
 
     def move(self, col):
+        if self.winner:
+            raise ConnectFourGameOverException('Game over.')
         for row in self.board:
             if row[col]:
+                """Cell is already occupied"""
                 continue
             else:
                 row[col] = self.turn
                 self.next_turn()
                 return
         else:
-            raise ConnectFourException('Column is full')
+            raise ConnectFourForbidenMoveException('Column is full')
 
-        return self.get_winner(self.board)
+        return 
 
     @staticmethod
     def diagonals(board, anti=False):
@@ -58,6 +71,7 @@ class ConnectFour:
         """
         Generate all posible board runs and check if there is a sequence of 4 identical
         """
+        winner = None
         runs = ConnectFour.diagonals(board)
         runs += ConnectFour.diagonals(board, anti=True)
         runs += board
@@ -65,4 +79,5 @@ class ConnectFour:
         for run in runs:
             for color, line in itertools.groupby(run):
                 if color and len(list(line)) >= 4:
-                    return color
+                    winner = color
+        return winner
